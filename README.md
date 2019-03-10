@@ -10,15 +10,14 @@ npm i import-locals
 
 ```ts
 import Patcher from "import-locals";
+const { Patcher } = require("import-locals"); // ES5 usage
 
 const patcher = new Patcher();
 patcher.export("request/lib/cookies", "RequestJar");
 patcher.export("request/lib/cookies", "CookieJar");
 
-const { RequestJar, CookieJar } = require("request/lib/cookies");
-
-// ES5 usage
-const { Patcher } = require("import-locals");
+import { RequestJar, CookieJar } from "request/lib/cookies";
+const { RequestJar, CookieJar } = require("request/lib/cookies"); // ES5 usage
 ```
 
 # 🔬 Patcher
@@ -81,6 +80,7 @@ patcher.export("request/lib/cookies", "CookieJar", {
 });
 
 const { RequestJar, LocalJar } = require("request/lib/cookies");
+import { RequestJar, CookieJar } from "request/lib/cookies";
 ```
 
 ### unexport
