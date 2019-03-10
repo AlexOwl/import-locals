@@ -1,6 +1,6 @@
 {
   "name": "import-locals",
-  "description": "project",
+  "description": "Allows you to import local variables, functions and classes from other modules",
   "license": "MIT",
   "author": {
     "name": "Alex Owl",
@@ -13,7 +13,7 @@
     "email": "AlexOwl@protonmail.com",
     "url": "https://github.com/AlexOwl/import-locals/issues"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "files": [
     "lib"
