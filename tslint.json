@@ -8,7 +8,9 @@
   "jsRules": {},
   "rules": {
     "ban-types": false,
-    "no-var-requires": false
+    "no-var-requires": false,
+    "no-namespace": false,
+    "interface-name": false
   },
   "rulesDirectory": []
 }

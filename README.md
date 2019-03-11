@@ -9,122 +9,80 @@ npm i import-locals
 # 📖 Usage
 
 ```ts
-import Patcher from "import-locals";
-const { Patcher } = require("import-locals"); // ES5 usage
+import locals from "import-locals";
+const locals = require("import-locals"); // ES5 usage
 
-const patcher = new Patcher();
-patcher.export("request/lib/cookies", "RequestJar");
-patcher.export("request/lib/cookies", "CookieJar");
+locals.export("request/lib/cookies", "RequestJar");
+locals.export("request/lib/cookies", "CookieJar");
+locals.export("request/lib/cookies", "CookieJar", "LocalJar");
 
-import { RequestJar, CookieJar } from "request/lib/cookies";
-const { RequestJar, CookieJar } = require("request/lib/cookies"); // ES5 usage
+import { RequestJar, CookieJar, LocalJar } from "request/lib/cookies"; // ES6 works
+const { RequestJar, CookieJar, LocalJar } = require("request/lib/cookies");
 ```
 
-# 🔬 Patcher
-
-## Properties
-
-### patched
+# 🔨 Advanced usage
 
 ```ts
-patched: boolean;
+// you can access internal GlobalPatcher
+global.locals.separator = "\n\n";
+
+global.locals.global.locals.unpatch();
+
+global.locals.compile.call(module, content, filename);
 ```
 
-- indicates if patcher applied
-
-```ts
-/* Example usage */
-if (patcher.patched) {
-  // ...
-}
-```
+# 🔬 LocalPatcher
 
 ## Methods
-
-### constructor
-
-```ts
-new Patcher(parent: NodeModule, patch: boolean = true);
-```
-
-- `parent` - current [module](https://nodejs.org/api/modules.html#modules_module) object
-
-- `patch` - if `true` automatically applies patch, else you need call [patch](#patch)
-
-```ts
-/* Example usage */
-const patcher = new Patcher(module, false);
-
-patcher.patch("");
-```
 
 ### export
 
 ```ts
-export(request: string, variable: string, { name: string = variable, uncache: boolean = true });
+export(request: String, variable: String, name: String = variable);
 ```
 
 - `request` - [module name or path](https://nodejs.org/api/modules.html#modules_module)
 
 - `variable` - name of variable (or function, class, etc) to export
 
-- `name` - name to use for export, by default the same as name of variable
-
-- `uncache` - if `true` deletes record from require.cache
+- `name` - name to use for export, by default the same as `variable`
 
 ```ts
-/* Example usage */
+/* Usage example */
 patcher.export("request/lib/cookies", "RequestJar");
-patcher.export("request/lib/cookies", "CookieJar", {
-  name: "LocalJar"
-});
+patcher.export("request/lib/cookies", "CookieJar", "LocalJar");
 
-const { RequestJar, LocalJar } = require("request/lib/cookies");
-import { RequestJar, CookieJar } from "request/lib/cookies";
+import { RequestJar, LocalJar } from "request/lib/cookies";
 ```
 
 ### unexport
 
 ```ts
-unexport(request: string, variable: string = null);
+unexport(request: String, variable: String = null, name: String = variable);
 ```
 
 - `request` - [module name or path](https://nodejs.org/api/modules.html#modules_module)
 
 - `variable` - if `null` unexports all variables
 
-```ts
-/* Example usage */
-patcher.unexport("request/lib/cookies", "RequestJar");
+- `name` - name used for export, by default the same as `variable`
 
+```ts
+/* Usage example */
+patcher.unexport("request/lib/cookies", "RequestJar");
+patcher.unexport("request/lib/cookies", "CookieJar", "LocalJar");
 patcher.unexport("request/lib/cookies");
 ```
 
-### patch
+# ❓ How does it work?
+
+### This module adds `exports[name]=variable` to requested source file, so you can require it
 
 ```ts
-patch(separator: string = '\n;');
-```
+var foo = ["bar"];
 
-- `separator` - separator between original source code and patch code
-
-```js
-/* Example usage */
-// try use different values, if your module brokes somehow
-patcher.patch("\n\n");
-```
-
-### unpatch
-
-```ts
-unpatch();
-```
-
-If you want repatch, just use [patch](#patch) again, you don't need call [unpatch](#unpatch)
-
-```ts
-/* Example usage */
-patcher.unpatch();
+// this module adds:
+exports["foo"] = foo;
 ```
 
 # 📝 License

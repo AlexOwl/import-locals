@@ -13,7 +13,7 @@
     "email": "AlexOwl@protonmail.com",
     "url": "https://github.com/AlexOwl/import-locals/issues"
   },
-  "version": "1.0.1",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -55,6 +55,7 @@
   "keywords": [
     "export",
     "import",
+    "include",
     "local",
     "locals",
     "module",
