@@ -1,5 +1,7 @@
 # import-locals
 
+[![Build Status](https://travis-ci.com/AlexOwl/import-locals.svg?branch=master)](https://travis-ci.com/AlexOwl/import-locals)
+
 # 💿 Installation
 
 ```bat
@@ -26,7 +28,7 @@ const { RequestJar, CookieJar, LocalJar } = require("request/lib/cookies");
 // you can access internal GlobalPatcher
 global.locals.separator = "\n\n";
 
-global.locals.global.locals.unpatch();
+global.locals.unpatch();
 
 global.locals.compile.call(module, content, filename);
 ```
